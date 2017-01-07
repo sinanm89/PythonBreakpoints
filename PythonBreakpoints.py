@@ -89,8 +89,9 @@ class Breakpoint(object):
         debugger = settings.get('debugger', 'pdb')
         custom_string = settings.get('breakpoint_string', None)
         if custom_string:
-            return "{breakpoint_string}  # breakpoint {uid}{mark} noqa  //\n".format(
-                breakpoint_string=custom_string, uid=self.uid, mark='x' if self.in_block else '')
+            return "{indent}{breakpoint_string}  # breakpoint {uid}{mark}  noqa  //\n".format(
+                indent=' ' * indent, breakpoint_string=custom_string,
+                uid=self.uid, mark='x' if self.in_block else '')
         return "{indent}import {dbg}; {dbg}.set_trace()  # breakpoint {uid}{mark} //\n".format(
             indent=' ' * indent, dbg=debugger, uid=self.uid, mark='x' if self.in_block else '')
 
